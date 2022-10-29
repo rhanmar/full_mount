@@ -13,27 +13,33 @@ class Event(Base):
     date = Column(Date, nullable=True)
     location = Column(String, nullable=True)
     url = Column(String, nullable=True)
-    # fights = relationship("Fight", back_populates="event")
+    fights = relationship("Fight", back_populates="event")
 
-#
-# class Fight(Base):
-#     __tablename__ = "fights"
-#
-#     fighter1_id = Column(Integer, ForeignKey("fighter1.id"))
-#     # fighter1 = relationship("Fighter", back_populates="fights")
-#     fighter2_id = Column(Integer, ForeignKey("fighter2.id"))
-#     # fighter2 = relationship("Fighter", back_populates="fights")
-#     winner_id = Column(Integer, ForeignKey("winner.id"), nullable=True)
-#     # winner = relationship("Fighter", back_populates="fights")
-#     odds_fighter1 = Column(Float, nullable=True)
-#     odds_fighter2 = Column(Float, nullable=True)
-#     is_over = Column(Boolean, default=False)
-#     event_id = Column(Integer, ForeignKey("event.id"))
-#     event = relationship("Event", back_populates="fights")
+
+class Fight(Base):
+    __tablename__ = "fights"
+
+    id = Column(Integer, primary_key=True, index=True)
+    # fighter1_id = Column(Integer, ForeignKey("fighter1.id"))
+    # fighter1_id = Column(Integer, ForeignKey("fighter1.id"))
+    fighter1 = Column(String)
+    # fighter1 = relationship("Fighter", back_populates="fights")
+    # fighter2_id = Column(Integer, ForeignKey("fighter2.id"))
+    fighter2 = Column(String)
+    # fighter2 = relationship("Fighter", back_populates="fights")
+
+    # winner_id = Column(Integer, ForeignKey("winner.id"), nullable=True)
+    # winner = relationship("Fighter", back_populates="fights")
+
+    odds_fighter1 = Column(Float, nullable=True)
+    odds_fighter2 = Column(Float, nullable=True)
+    is_over = Column(Boolean, default=False)
+    event_id = Column(Integer, ForeignKey("events.id"))
+    event = relationship("Event", back_populates="fights")
 #
 #
 # class Fighter(Base):
-#     __tablename__ = "fighters"
+#     __tablename__ = "Fighters"
 #
 #     id = Column(Integer, primary_key=True, index=True)
 #     name = Column(String)
