@@ -27,10 +27,10 @@ def create_event():
     return {"ok": e1.id}
 
 
-@app.get("/read/events")
+@app.get("/read/events", response_model=list[EventRead])
 def read_events():
     db = SessionLocal()
-    data = db.query(Event).all()
+    data = db.query(Event).join(Fight).all()
     return data
 
 
