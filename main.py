@@ -1,6 +1,6 @@
 from db.schemas import FightRead, EventRead
 from db.database import SessionLocal
-from db.models import Event, Fight
+from db.models import Event, Fight, Fighter
 import random
 
 from fastapi import FastAPI
@@ -65,4 +65,30 @@ def read_fights() -> list[FightRead]:
 def read_fights_by_id(fight_id: int) -> FightRead:
     db = SessionLocal()
     data = db.query(Fight).filter(Fight.id == fight_id).join(Event).first()
+    return data
+
+
+@app.get("/read/fighters")
+def read_fighters() -> dict:
+    db = SessionLocal()
+    data = db.query(Fighter).all()
+    return data
+
+
+@app.get("/create/fighter")
+def create_fighter():
+    db = SessionLocal()
+    f1 = Fighter(
+        name=f"Fighter{random.randint(1, 20)}",
+        country="t",
+    )
+    db.add(f1)
+    db.commit()
+    return {"ok": f1.id}
+
+
+@app.get("/read/fights2")
+def read_fights():
+    db = SessionLocal()
+    data = db.query(Fight).all()
     return data

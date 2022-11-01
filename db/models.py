@@ -16,17 +16,28 @@ class Event(Base):
     fights = relationship("Fight", back_populates="event")
 
 
+class Fighter(Base):
+    __tablename__ = "fighters"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    country = Column(String, nullable=True)
+    # fights = relationship("Fight")
+    # fights = relationship("Fight")
+
+
 class Fight(Base):
     __tablename__ = "fights"
 
     id = Column(Integer, primary_key=True, index=True)
-    # fighter1_id = Column(Integer, ForeignKey("fighter1.id"))
-    # fighter1_id = Column(Integer, ForeignKey("fighter1.id"))
-    fighter1 = Column(String)
-    # fighter1 = relationship("Fighter", back_populates="fights")
-    # fighter2_id = Column(Integer, ForeignKey("fighter2.id"))
-    fighter2 = Column(String)
-    # fighter2 = relationship("Fighter", back_populates="fights")
+    # fighter1 = Column(String)
+    # fighter2 = Column(String)
+
+    fighter1_id = Column(Integer, ForeignKey("fighters.id"))
+    fighter1 = relationship("Fighter", foreign_keys=[fighter1_id])
+
+    fighter2_id = Column(Integer, ForeignKey("fighters.id"))
+    fighter2 = relationship("Fighter", foreign_keys=[fighter2_id])
 
     # winner_id = Column(Integer, ForeignKey("winner.id"), nullable=True)
     # winner = relationship("Fighter", back_populates="fights")
@@ -36,12 +47,3 @@ class Fight(Base):
     is_over = Column(Boolean, default=False)
     event_id = Column(Integer, ForeignKey("events.id"))
     event = relationship("Event", back_populates="fights")
-#
-#
-# class Fighter(Base):
-#     __tablename__ = "Fighters"
-#
-#     id = Column(Integer, primary_key=True, index=True)
-#     name = Column(String)
-#     country = Column(String, nullable=True)
-#     fights = relationship("Fight", back_populates="fighter")
