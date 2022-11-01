@@ -4,10 +4,12 @@ import random
 
 
 def generate_data():
-    # ADD EVENT
+    # ADD EVENTS
     db = SessionLocal()
-    e1 = Event(name=f"test{random.randint(1, 20)}")
+    e1 = Event(name=f"Event {random.randint(1, 20)}")
     db.add(e1)
+    e2 = Event(name=f"Event {random.randint(1, 20)}")
+    db.add(e2)
     db.commit()
 
     # ADD FIGHTERS
@@ -28,23 +30,23 @@ def generate_data():
     db.add(fighter3)
     db.commit()
 
-    # ADD FIGHT
+    # ADD FIGHTS
     fight1 = Fight(
-        # fighter1=f"fighter{random.randint(1, 20)}",
-        # fighter2=f"fighter{random.randint(1, 20)}",
         fighter1_id=fighter1.id,
         fighter2_id=fighter2.id,
+        winner_id=fighter2.id,
         event_id=e1.id,
+        is_over=True,
     )
     fight2 = Fight(
         fighter1_id=fighter2.id,
         fighter2_id=fighter3.id,
-        event_id=1
+        event_id=e2.id,
     )
     fight3 = Fight(
         fighter1_id=fighter3.id,
         fighter2_id=fighter1.id,
-        event_id=1
+        event_id=e1.id,
     )
     db.add(fight1)
     db.add(fight2)
