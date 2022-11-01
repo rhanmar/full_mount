@@ -3,3 +3,6 @@ run:
 
 test:
 	pytest
+
+generate_data:
+	http get localhost:8000/create/data
