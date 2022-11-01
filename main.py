@@ -92,3 +92,10 @@ def read_fights():
     db = SessionLocal()
     data = db.query(Fight).all()
     return data
+
+
+@app.get("/create/data")
+def generate_data():
+    from utils.data_generator import generate_data
+    generate_data()
+    return "ok"
