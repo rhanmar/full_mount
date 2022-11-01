@@ -30,8 +30,6 @@ class Fight(Base):
     __tablename__ = "fights"
 
     id = Column(Integer, primary_key=True, index=True)
-    # fighter1 = Column(String)
-    # fighter2 = Column(String)
 
     fighter1_id = Column(Integer, ForeignKey("fighters.id"))
     fighter1 = relationship("Fighter", foreign_keys=[fighter1_id])
@@ -39,8 +37,8 @@ class Fight(Base):
     fighter2_id = Column(Integer, ForeignKey("fighters.id"))
     fighter2 = relationship("Fighter", foreign_keys=[fighter2_id])
 
-    # winner_id = Column(Integer, ForeignKey("winner.id"), nullable=True)
-    # winner = relationship("Fighter", back_populates="fights")
+    winner_id = Column(Integer, ForeignKey("fighters.id"), nullable=True)
+    winner = relationship("Fighter", foreign_keys=[winner_id])
 
     odds_fighter1 = Column(Float, nullable=True)
     odds_fighter2 = Column(Float, nullable=True)
