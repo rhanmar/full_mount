@@ -34,6 +34,13 @@ def read_events():
     return data
 
 
+@app.get("/read/events_simple")
+def read_events_simple():
+    db = SessionLocal()
+    data = db.query(Event).all()
+    return data
+
+
 @app.get("/read/events/{event_id}", response_model=EventRead)
 def read_event_by_id(event_id: int):
     db = SessionLocal()
@@ -99,3 +106,10 @@ def generate_data():
     from utils.data_generator import generate_data
     generate_data()
     return "ok"
+
+
+@app.get("/create/next_event")
+def generate_data():
+    from utils.parsers.parser import get_next_event
+    get_next_event()
+    return "next event is added"
