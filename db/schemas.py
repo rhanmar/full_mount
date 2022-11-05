@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import date
 
 
 class BaseSchema(BaseModel):
@@ -40,7 +41,7 @@ class EventRead(EventBase):
     id: int
     name: str
     is_over: bool | None
-    date: str | None
+    date: date | None
     location: str | None
     url: str | None
     fights: list[FightInEvent] = None

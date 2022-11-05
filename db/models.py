@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Date, Float
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, Float
 from sqlalchemy.orm import relationship
 
 from db.database import Base
@@ -10,8 +10,7 @@ class Event(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     is_over = Column(Boolean, default=False)
-    # date = Column(Date, nullable=True)
-    date = Column(String, nullable=True)
+    date = Column(Date, nullable=True)
     location = Column(String, nullable=True)
     url = Column(String, nullable=True)
     fights = relationship("Fight", back_populates="event")

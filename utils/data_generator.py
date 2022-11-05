@@ -1,14 +1,22 @@
 from db.database import SessionLocal
 from db.models import Event, Fight, Fighter
 import random
+import datetime
 
 
-def generate_data():
+def generate_data() -> str | None:
     # ADD EVENTS
     db = SessionLocal()
-    e1 = Event(name=f"Event {random.randint(1, 20)}")
+    now = datetime.datetime.now()
+    e1 = Event(
+        name=f"Event {random.randint(1, 20)}",
+        date=now - datetime.timedelta(days=2),
+    )
     db.add(e1)
-    e2 = Event(name=f"Event {random.randint(1, 20)}")
+    e2 = Event(
+        name=f"Event {random.randint(1, 20)}",
+        date=now - datetime.timedelta(days=3)
+    )
     db.add(e2)
     db.commit()
 
@@ -52,3 +60,5 @@ def generate_data():
     db.add(fight2)
     db.add(fight3)
     db.commit()
+
+    return "ok"

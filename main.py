@@ -18,15 +18,6 @@ def root() -> dict:
     return {"Welcome": "MMA Pet Project"}
 
 
-@app.get("/create/event")
-def create_event():
-    db = SessionLocal()
-    e1 = Event(name=f"test{random.randint(1, 20)}")
-    db.add(e1)
-    db.commit()
-    return {"ok": e1.id}
-
-
 @app.get("/read/events", response_model=list[EventRead])
 def read_events():
     db = SessionLocal()
@@ -48,17 +39,11 @@ def read_event_by_id(event_id: int):
     return data
 
 
-@app.get("/create/fight")
-def create_fight():
+@app.get("/read/next_event", response_model=EventRead)
+def read_next_event():
     db = SessionLocal()
-    f1 = Fight(
-        fighter1=f"fighter{random.randint(1, 20)}",
-        fighter2=f"fighter{random.randint(1, 20)}",
-        event_id=1
-    )
-    db.add(f1)
-    db.commit()
-    return {"ok": f1.id}
+    data = db.query(Event).order_by(Event.date.desc()).first()
+    return data
 
 
 @app.get("/read/fights", response_model=list[FightRead])
@@ -104,12 +89,30 @@ def read_fights():
 @app.get("/create/data")
 def generate_data():
     from utils.data_generator import generate_data
-    generate_data()
-    return "ok"
+    return generate_data()
 
 
 @app.get("/create/next_event")
-def generate_data():
+def create_next_event():
     from utils.parsers.parser import get_next_event
-    get_next_event()
-    return "next event is added"
+    return get_next_event()
+
+
+@app.get("/create/parse_events")
+def parse_events():
+    from utils.parsers.parser import parse_events
+    return parse_events()
+
+
+@app.get("/create/parse_fights")
+def parse_events():
+    from utils.parsers.parser import parse_fights
+    return parse_fights()
+
+
+@app.get("/create/init_data")
+def init_data():
+    from utils.parsers.parser import parse_fights, get_next_event
+    print(get_next_event())
+    print(parse_fights())
+    return "data is initialized"
