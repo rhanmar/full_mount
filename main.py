@@ -3,7 +3,8 @@ from db.database import SessionLocal
 from db.models import Event, Fight, Fighter
 import random
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
 
 from db import models
 from db.database import engine
@@ -13,63 +14,65 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
+def get_db() -> SessionLocal:
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 @app.get("/")
 def root() -> dict:
     return {"Welcome": "MMA Pet Project"}
 
 
 @app.get("/read/events", response_model=list[EventRead])
-def read_events():
-    db = SessionLocal()
+def read_events(db: Session = Depends(get_db)):
+    # db = SessionLocal()
     data = db.query(Event).join(Fight).all()
     return data
 
 
 @app.get("/read/events_simple")
-def read_events_simple():
-    db = SessionLocal()
+def read_events_simple(db: Session = Depends(get_db)):
+    # db = SessionLocal()
     data = db.query(Event).all()
     return data
 
 
 @app.get("/read/events/{event_id}", response_model=EventRead)
-def read_event_by_id(event_id: int):
-    db = SessionLocal()
+def read_event_by_id(event_id: int, db: Session = Depends(get_db)):
     data = db.query(Event).filter(Event.id == event_id).first()
     return data
 
 
 @app.get("/read/next_event", response_model=EventRead)
-def read_next_event():
-    db = SessionLocal()
+def read_next_event(db: Session = Depends(get_db)):
     data = db.query(Event).order_by(Event.date.desc()).first()
     return data
 
 
 @app.get("/read/fights", response_model=list[FightRead])
-def read_fights() -> list[FightRead]:
-    db = SessionLocal()
+def read_fights(db: Session = Depends(get_db)) -> list[FightRead]:
     data = db.query(Fight).join(Event).all()
     return data
 
 
 @app.get("/read/fights/{fight_id}", response_model=FightRead)
-def read_fights_by_id(fight_id: int) -> FightRead:
-    db = SessionLocal()
+def read_fights_by_id(fight_id: int, db: Session = Depends(get_db)) -> FightRead:
     data = db.query(Fight).filter(Fight.id == fight_id).join(Event).first()
     return data
 
 
 @app.get("/read/fighters")
-def read_fighters() -> dict:
-    db = SessionLocal()
+def read_fighters(db: Session = Depends(get_db)) -> dict:
     data = db.query(Fighter).all()
     return data
 
 
 @app.get("/create/fighter")
-def create_fighter():
-    db = SessionLocal()
+def create_fighter(db: Session = Depends(get_db)):
     f1 = Fighter(
         name=f"Fighter{random.randint(1, 20)}",
         country="t",
@@ -80,8 +83,8 @@ def create_fighter():
 
 
 @app.get("/read/fights2")
-def read_fights():
-    db = SessionLocal()
+def read_fights(db: Session = Depends(get_db)):
+    # db = SessionLocal()
     data = db.query(Fight).all()
     return data
 
