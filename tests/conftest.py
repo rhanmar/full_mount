@@ -58,3 +58,32 @@ def fighter_factory(db_session):
             model = Fighter
             sqlalchemy_session = db_session
     return FighterFactory
+
+
+@pytest.fixture()
+def event_factory(db_session):
+    class EventFactory(factory.alchemy.SQLAlchemyModelFactory):
+
+        name = factory.Faker("name")
+        date = factory.Faker("date_object")
+        location = factory.Faker("city")
+        url = factory.Faker("url")
+
+        class Meta:
+            model = Event
+            sqlalchemy_session = db_session
+    return EventFactory
+
+
+@pytest.fixture()
+def fight_factory(db_session, fighter_factory, event_factory):
+    class FightFactory(factory.alchemy.SQLAlchemyModelFactory):
+
+        fighter1 = factory.SubFactory(fighter_factory)
+        fighter2 = factory.SubFactory(fighter_factory)
+        event = factory.SubFactory(event_factory)
+
+        class Meta:
+            model = Fight
+            sqlalchemy_session = db_session
+    return FightFactory

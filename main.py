@@ -71,17 +71,6 @@ def read_fighters(db: Session = Depends(get_db)) -> dict:
     return data
 
 
-@app.get("/create/fighter")
-def create_fighter(db: Session = Depends(get_db)):
-    f1 = Fighter(
-        name=f"Fighter{random.randint(1, 20)}",
-        country="t",
-    )
-    db.add(f1)
-    db.commit()
-    return {"ok": f1.id}
-
-
 @app.get("/read/fights2")
 def read_fights(db: Session = Depends(get_db)):
     # db = SessionLocal()
