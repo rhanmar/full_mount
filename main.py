@@ -61,8 +61,9 @@ def get_fights_by_id(fight_id: int, db: Session = Depends(get_db)) -> FightRead:
 @app.get("/api/create/init_data/")
 def init_data():
     service = ParserService()
-    service.get_next_event()
-    service.parse_fights()
+    service.get_events()
+    # service.get_next_event()
+    # service.parse_fights()
     return "data is initialized"
 
 

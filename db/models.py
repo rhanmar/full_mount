@@ -8,6 +8,7 @@ class Event(Base):
     __tablename__ = "events"
 
     id = Column(Integer, primary_key=True, index=True)
+    ref_id = Column(String, unique=True, index=True)
     name = Column(String)
     is_over = Column(Boolean, default=False)
     date = Column(Date, nullable=True)

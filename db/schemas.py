@@ -39,6 +39,7 @@ class FightInEvent(FightBase):
 
 class EventRead(EventBase):
     id: int
+    ref_id: str
     name: str
     is_over: bool | None
     date: date | None
@@ -51,6 +52,7 @@ class EventRead(EventBase):
 
 class EventInFight(EventBase):
     id: int
+    ref_id: str
     name: str
     is_over: bool | None
     date: str | None

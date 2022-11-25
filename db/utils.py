@@ -9,6 +9,6 @@ def get_or_create(session, model, **kwargs):
         return instance
 
 
-def does_exists(session, model, **kwargs):
+def does_exist(session, model, **kwargs):
     result = session.query(model).filter_by(**kwargs).count()
     return bool(result)
