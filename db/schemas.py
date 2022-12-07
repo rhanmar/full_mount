@@ -22,12 +22,16 @@ class FighterBase(BaseSchema):
 
 class FighterInFight(FighterBase):
     id: int
+    ref_id: str
+    ref_url: str
     name: str
     country: str | None
 
 
 class FightInEvent(FightBase):
     id: int
+    ref_id: str
+    ref_url: str
     fighter1: FighterInFight
     fighter2: FighterInFight
     winner: FighterInFight | None
@@ -40,11 +44,11 @@ class FightInEvent(FightBase):
 class EventRead(EventBase):
     id: int
     ref_id: str
+    ref_url: str
     name: str
     is_over: bool | None
     date: date | None
     location: str | None
-    url: str | None
     fights: list[FightInEvent] = None
 
 ###
@@ -53,15 +57,17 @@ class EventRead(EventBase):
 class EventInFight(EventBase):
     id: int
     ref_id: str
+    ref_url: str
     name: str
     is_over: bool | None
     date: str | None
     location: str | None
-    url: str | None
 
 
 class FightRead(FightBase):
     id: int
+    ref_id: str
+    ref_url: str
     fighter1: FighterInFight
     fighter2: FighterInFight
     winner: FighterInFight | None

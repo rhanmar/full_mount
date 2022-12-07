@@ -9,11 +9,11 @@ class Event(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     ref_id = Column(String, unique=True, index=True)
+    ref_url = Column(String, nullable=True)
     name = Column(String)
     is_over = Column(Boolean, default=False)
     date = Column(Date, nullable=True)
     location = Column(String, nullable=True)
-    url = Column(String, nullable=True)
     fights = relationship("Fight", back_populates="event")
 
 
@@ -21,6 +21,8 @@ class Fighter(Base):
     __tablename__ = "fighters"
 
     id = Column(Integer, primary_key=True, index=True)
+    ref_id = Column(String, unique=True, index=True)
+    ref_url = Column(String, nullable=True)
     name = Column(String)
     country = Column(String, nullable=True)
     # fights = relationship("Fight")
@@ -31,6 +33,8 @@ class Fight(Base):
     __tablename__ = "fights"
 
     id = Column(Integer, primary_key=True, index=True)
+    ref_id = Column(String, unique=True, index=True)
+    ref_url = Column(String, nullable=True)
 
     fighter1_id = Column(Integer, ForeignKey("fighters.id"))
     fighter1 = relationship("Fighter", foreign_keys=[fighter1_id])
