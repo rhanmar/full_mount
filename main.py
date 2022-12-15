@@ -67,10 +67,10 @@ def init_data():
     return "data is initialized"
 
 
-# @app.get("/api/fighters/")
-# def read_fighters(db: Session = Depends(get_db)) -> dict:
-#     data = db.query(Fighter).all()
-#     return data
+@app.get("/api/fighters/")
+def read_fighters(db: Session = Depends(get_db)) -> dict:
+    data = db.query(Fighter).all()
+    return data
 
 
 #
